@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Fully accessible Friday Night Funkin' chart editor with audio upload and JSON import/export">
+  <title>FNF Accessible Chart Editor</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+        'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+        sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      background-color: #1a1a1a;
+      color: #e0e0e0;
+    }
+
+    code {
+      font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+        monospace;
+    }
+
+    #root {
+      width: 100%;
+      min-height: 100vh;
+    }
+
+    /* Accessibility: Focus visible outline */
+    *:focus-visible {
+      outline: 3px solid #00d4ff;
+      outline-offset: 2px;
+    }
+
+    /* Skip to main content link */
+    .skip-link {
+      position: absolute;
+      top: -40px;
+      left: 0;
+      background: #000;
+      color: #fff;
+      padding: 8px;
+      z-index: 100;
+    }
+
+    .skip-link:focus {
+      top: 0;
+    }
+  </style>
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+  <noscript>
+    <div role="alert">
+      <h1>JavaScript Required</h1>
+      <p>This application requires JavaScript to be enabled. Please enable JavaScript in your browser settings.</p>
+    </div>
+  </noscript>
+  <div id="root"></div>
+</body>
+</html>
