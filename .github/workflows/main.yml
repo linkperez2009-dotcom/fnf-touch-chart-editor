@@ -1,0 +1,72 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Prepare React project
+        run: |
+          mkdir -p src public
+
+          mv App.jsx src/App.jsx
+          mv App.css src/App.css
+          mv AudioUploader.jsx src/AudioUploader.jsx
+          mv ChartEditor.jsx src/ChartEditor.jsx
+          mv Toolbar.jsx src/Toolbar.jsx
+          mv index.jsx src/index.jsx
+
+          mv index.html public/index.html
+
+          node -e "let p=require('./package.json'); p.homepage='https://linkperez2009-dotcom.github.io/fnf-touch-chart-editor'; require('fs').writeFileSync('package.json', JSON.stringify(p,null,2)+'\n')"
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build
+        run: npm run build
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./build
+
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
